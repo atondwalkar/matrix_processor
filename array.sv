@@ -17,7 +17,7 @@ module array(
     input logic [SIZE*SIZE-1:0] select;
     output logic [31:0] d_out;
     
-    parameter SIZE = 4;
+    parameter SIZE = 16;
     
     assign a[0][0] = a_in;
     assign b[0][0] = b_in;
