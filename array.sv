@@ -19,12 +19,12 @@ module array(
     
     parameter SIZE = 16;
     
-    assign a[0][0] = a_in;
-    assign b[0][0] = b_in;
-    
     logic [7:0] a [SIZE:0][SIZE:0];
     logic [7:0] b [SIZE:0][SIZE:0];
     logic [7:0] acc_out [SIZE*SIZE-1:0];
+    
+    assign a[0][0] = a_in;
+    assign b[0][0] = b_in;
     
     genvar i, j;
     generate
