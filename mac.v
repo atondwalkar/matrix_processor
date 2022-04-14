@@ -28,30 +28,16 @@ module mac(
         begin
             a_out <= 0;
             b_out <= 0;
-        end
-        else
-        begin
-            a_out <= load_en ? a_in : a_out;
-            b_out <= load_en ? b_in : b_out;
-        end
-    end 
-    
-    
-    always @ (posedge clk or posedge reset)
-    begin
-        if(reset)
-        begin
             acc_out <= 32'b0;
             mult <= 16'b0;
         end
         else
         begin
+            a_out <= load_en ? a_in : a_out;
+            b_out <= load_en ? b_in : b_out;
             mult <= mult_en ? a_out*b_out : mult;
             acc_out <= acc_en ? mult + acc_out : acc_out;
         end
-    end
-    
-
-    
+    end 
     
 endmodule
