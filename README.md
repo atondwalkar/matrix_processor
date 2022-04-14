@@ -1,5 +1,5 @@
 ## matrix_processor
-#matrix processor axi peripheral for ast tpu 2.0
+# matrix processor axi peripheral for ast tpu 2.0
 
 TPU is designed for int 8, thus accumulate will store data in ddr as 32 bit
 
