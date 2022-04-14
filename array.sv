@@ -12,19 +12,27 @@ module array(
     d_out
     );
     
+    parameter SIZE = 4;
+    
     input logic clk, reset, mult_en, acc_en, load_en;
-    input logic [7:0] a_in, b_in;
+    input logic [7:0] a_in [SIZE-1:0];
+    input logic [7:0] b_in [SIZE-1:0];
     input logic [SIZE*SIZE-1:0] select;
     output logic [31:0] d_out;
-    
-    parameter SIZE = 16;
     
     logic [7:0] a [SIZE:0][SIZE:0];
     logic [7:0] b [SIZE:0][SIZE:0];
     logic [7:0] acc_out [SIZE*SIZE-1:0];
-    
-    assign a[0][0] = a_in;
-    assign b[0][0] = b_in;
+
+    integer k;
+    always_comb
+    begin
+        for(k=0; k<SIZE; k++)
+        begin
+            a[k][0] = a_in[k]; //row boundary
+            b[0][k] = b_in[k]; //col boundary
+        end
+    end
     
     genvar i, j;
     generate
