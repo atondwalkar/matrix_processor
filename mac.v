@@ -1,5 +1,6 @@
 `timescale 1ns / 1ps
 
+//8b int multiplay accumulate unit
 
 module mac(
     a,
