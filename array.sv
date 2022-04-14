@@ -48,8 +48,8 @@ module array(
                 .mult_en(mult_en), 
                 .acc_en(acc_en), 
                 .load_en(load_en), 
-                .a_out(a[i+1][j+1]), 
-                .b_out(b[i+1][j+1]),
+                .a_out(a[i][j+1]), 
+                .b_out(b[i+1][j]),
                 .acc_out(acc_out[i*SIZE+j])
                 );
         end
