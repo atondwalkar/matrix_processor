@@ -29,7 +29,7 @@ module control(
         state <= 0;
     end
     
-    always @ (clk)
+    always @ (posedge clk)
     begin
         if(reset)
         begin
