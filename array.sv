@@ -22,7 +22,7 @@ module array(
     
     logic [7:0] a [SIZE:0][SIZE:0];
     logic [7:0] b [SIZE:0][SIZE:0];
-    logic [7:0] acc_out [$clog2(SIZE*SIZE)-1:0];
+    logic [7:0] acc_out [(SIZE*SIZE)-1:0];
 
     integer k;
     always_comb

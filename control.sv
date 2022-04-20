@@ -12,7 +12,7 @@ module control(
     done
     );
     
-    parameter SIZE = 4;
+    parameter SIZE = 16;
     
     input logic clk, reset, start;
     input logic [$clog2(SIZE):0] cycles_in;
@@ -47,7 +47,7 @@ module control(
             if(start)
             begin
                 state <= 1;
-                cycles <= cycles_in;
+                cycles <= 0;
             end
             else
             begin
@@ -63,7 +63,7 @@ module control(
         end
         if(state == 1)
         begin
-            if(cycles != 0) //how many elements to multiply in array
+            if(cycles != cycles_in) //how many elements to multiply in array
             begin
                 case (mac_cycles) //mac unit has 3 steps
                     0   : 
@@ -72,7 +72,14 @@ module control(
                         load_en <= 1;
                         mult_en <= 0;
                         acc_en <= 0;
-                        memsel <= {memsel[SIZE-1:0], 1'b1}; 
+                        if(cycles < SIZE)
+                        begin
+                            memsel <= {memsel[SIZE-1:0], 1'b1}; 
+                        end
+                        else
+                        begin
+                            memsel <= {memsel[SIZE-1:0], 1'b0};
+                        end
                         end
                     1   :
                         begin
@@ -87,7 +94,7 @@ module control(
                         load_en <= 0;
                         mult_en <= 0;
                         acc_en <= 1;
-                        cycles <= cycles - 1;
+                        cycles <= cycles + 1;
                         end
                     default :
                         begin
