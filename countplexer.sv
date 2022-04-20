@@ -4,13 +4,14 @@ module countplexer(
     clk,
     reset,
     enable,
+    next,
     data_in,
     data_out
     );
     
     parameter SIZE = 4;
 
-    input logic clk, reset, enable;
+    input logic clk, reset, enable, next;
     input logic [SIZE-1:0][7:0] data_in;
     output logic [7:0] data_out;
     
@@ -27,7 +28,7 @@ module countplexer(
         begin
             count <= 0;
         end
-        else if(enable)
+        else if(enable & next)
         begin
             count <= count + 1;
         end

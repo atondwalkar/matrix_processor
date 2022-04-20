@@ -9,6 +9,7 @@ module control(
     mult_en,
     acc_en,
     memsel,
+    next,
     done
     );
     
@@ -18,7 +19,7 @@ module control(
     input logic [$clog2(SIZE):0] cycles_in;
     output logic load_en, mult_en, acc_en;
     output logic [SIZE-1:0] memsel;
-    output logic done;
+    output logic done, next;
     
     logic [2:0] state;
     logic [$clog2(SIZE):0] cycles;
@@ -41,13 +42,13 @@ module control(
             cycles <= 0;
             mac_cycles <= 0;
             done <= 0;
+            next <= 0;
         end
         if(state == 0)
         begin
             if(start)
             begin
                 state <= 1;
-                cycles <= 0;
             end
             else
             begin
@@ -59,6 +60,7 @@ module control(
                 cycles <= 0;
                 mac_cycles <= 0;
                 done <= 0;
+                next <= 0;
             end
         end
         if(state == 1)
@@ -87,6 +89,7 @@ module control(
                         load_en <= 0;
                         mult_en <= 1;
                         acc_en <= 0;
+                        next <= 0;
                         end
                     2   :
                         begin
@@ -95,6 +98,7 @@ module control(
                         mult_en <= 0;
                         acc_en <= 1;
                         cycles <= cycles + 1;
+                        next <= 0;
                         end
                     default :
                         begin
@@ -102,23 +106,24 @@ module control(
                         load_en <= 0;
                         mult_en <= 0;
                         acc_en <= 0;
+                        next <= 1;
                         end
                 endcase
             end
             else
             begin
-                state = 2;
+                state <= 2;
             end
         end
         if(state == 2)
         begin
             done <= 1;
-            state = 3;
+            state <= 3;
         end
         if(state == 3)
         begin
             done <= 0;
-            state = 0;
+            state <= 0;
         end
     
     end

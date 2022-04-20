@@ -15,14 +15,14 @@ module array(
     parameter SIZE = 4;
     
     input logic clk, reset, mult_en, acc_en, load_en;
-    input logic [7:0] a_in [SIZE-1:0];
-    input logic [7:0] b_in [SIZE-1:0];
+    input logic [SIZE-1:0][7:0] a_in;
+    input logic [SIZE-1:0][7:0] b_in;
     input logic [$clog2(SIZE*SIZE)-1:0] select;
     output logic [31:0] d_out;
     
-    logic [7:0] a [SIZE:0][SIZE:0];
-    logic [7:0] b [SIZE:0][SIZE:0];
-    logic [7:0] acc_out [(SIZE*SIZE)-1:0];
+    logic [SIZE:0][SIZE:0][7:0] a;
+    logic [SIZE:0][SIZE:0][7:0] b;
+    logic [(SIZE*SIZE)-1:0][7:0] acc_out;
 
     integer k;
     always_comb

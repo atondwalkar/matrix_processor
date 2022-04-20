@@ -6,33 +6,80 @@ module mxu(
     wdata,
     awaddr,
     wready,
+    awready,
     rdata,
     araddr,
     );
     
-    parameter SIZE = 16;
+    parameter SIZE = 4;
     
     input logic clk, reset;
 
     input logic [31:0] awaddr;
     input logic [8:0] wdata;
-    output logic wready;
+    input logic wready;
+    input logic awready;
     
     input logic [31:0] araddr;
     output logic [31:0] rdata;
     
     logic load_en, mult_en, acc_en;
+    logic [SIZE-1:0] memsel;
     
-    logic [7:0] cache [$clog2(SIZE*SIZE*2):0];
+    logic [SIZE*SIZE*2:0][7:0] cache;
     // start will be 8'b0000_0001
     // done will be 8'b0000_0010
     // 0 - start/done
     // rest is data
     
-    logic done;
+    logic done, next;
     
-    logic select [$clog2(SIZE*SIZE)-1:0];
+    logic [$clog2(SIZE*SIZE)-1:0] select;
     logic [31:0] d_out;
+    
+    logic reset_plex;
+    logic [SIZE-1:0][SIZE-1:0][7:0] data_plex_a;
+    logic [SIZE-1:0][SIZE-1:0][7:0] data_plex_b;
+    logic [SIZE-1:0][7:0] a_in;
+    logic [SIZE-1:0][7:0] b_in;
+    
+    assign reset_plex = reset | done;
+    
+    integer x, y;
+    always_comb
+    begin
+        for(x=0; x<SIZE; x=x+1)
+        begin
+            for(y=0; y<SIZE; y=y+1)
+            begin
+                data_plex_a[x][y] <= cache[x*SIZE+y + 1];
+                data_plex_b[x][y] <= cache[x*SIZE+y + SIZE*SIZE + 1];
+            end
+        end
+    end
+    
+    genvar i;
+    generate
+    for(i=0; i<SIZE; i=i+1)
+    begin
+        countplexer #(.SIZE(SIZE)) plex_a (
+            .clk(clk),
+            .reset(reset_plex),
+            .enable(memsel[i]),
+            .next(next),
+            .data_in(data_plex_a[i]),
+            .data_out(a_in[i])
+            );
+        countplexer #(.SIZE(SIZE)) plex_b (
+            .clk(clk),
+            .reset(reset_plex),
+            .enable(memsel[i]),
+            .next(next),
+            .data_in(data_plex_b[i]),
+            .data_out(b_in[i])
+            );
+    end
+    endgenerate
     
     control #(.SIZE(SIZE)) control_inst (
         .clk(clk),
@@ -41,7 +88,9 @@ module mxu(
         .mult_en(mult_en),
         .acc_en(acc_en),
         .done(done),
-        .start(cache[0][0])
+        .start(cache[0][0]),
+        .memsel(memsel),
+        .next(next)
         );
     
     array #(.SIZE(SIZE)) array_inst (
@@ -51,7 +100,9 @@ module mxu(
         .mult_en(mult_en),
         .acc_en(acc_en),
         .select(select),
-        .d_out(d_out)
+        .d_out(d_out),
+        .a_in(a_in),
+        .b_in(b_in)
         );
         
     assign select = araddr[$clog2(SIZE*SIZE)-1:0];
@@ -63,7 +114,7 @@ module mxu(
         begin
             cache[0] <= 8'b0000_0010;
         end
-        else if(wready)
+        else if(wready & awready)
         begin
             cache[awaddr[$clog2(SIZE*SIZE*2):0]] <= wdata;
         end
