@@ -51,7 +51,7 @@ module mxu_tb;
         clk = 0;
         reset = 0;
 
-        //loading first number to A
+        //loading data to A
 
         for(i = 0; i < SIZE; i++)
             begin
@@ -81,7 +81,7 @@ module mxu_tb;
                     end
             end
 
-            //loading second number to B
+            //loading data to B
 
         for(i = 0; i < SIZE; i++)
             begin
