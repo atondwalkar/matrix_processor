@@ -14,6 +14,8 @@ Array is of dynamic size and multiplies in format AxB, where rows of A are multi
 
 Countplex Modules relay data from cache to systolic array in proper, stagnated form.
 
+Control module handles control signals of the array's multiplication stages and countplexs' data alignment
+
 ## Simulation Results
 
 The following matrix multiplication example was used to simulate the processor
