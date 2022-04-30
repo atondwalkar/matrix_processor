@@ -16,13 +16,13 @@ module control(
     parameter SIZE = 16;
     
     input logic clk, reset, start;
-    input logic [$clog2(SIZE):0] cycles_in;
+    input logic [7:0] cycles_in;
     output logic load_en, mult_en, acc_en;
     output logic [SIZE-1:0] memsel;
     output logic done, next;
     
     logic [2:0] state;
-    logic [$clog2(SIZE):0] cycles;
+    logic [7:0] cycles;
     logic [1:0] mac_cycles;
     
     initial
@@ -74,6 +74,7 @@ module control(
                         load_en <= 1;
                         mult_en <= 0;
                         acc_en <= 0;
+                        next <= 0;
                         if(cycles < SIZE)
                         begin
                             memsel <= {memsel[SIZE-1:0], 1'b1}; 
@@ -98,7 +99,7 @@ module control(
                         mult_en <= 0;
                         acc_en <= 1;
                         cycles <= cycles + 1;
-                        next <= 0;
+                        next <= 1;
                         end
                     default :
                         begin
@@ -106,13 +107,17 @@ module control(
                         load_en <= 0;
                         mult_en <= 0;
                         acc_en <= 0;
-                        next <= 1;
+                        next <= 0;
                         end
                 endcase
             end
             else
             begin
                 state <= 2;
+                load_en <= 0;
+                mult_en <= 0;
+                acc_en <= 0;
+                next <= 0;
             end
         end
         if(state == 2)

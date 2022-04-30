@@ -20,7 +20,7 @@ module mac(
     output reg [31:0] acc_out;
     output reg [7:0] a_out, b_out;
     
-    reg [15:0] mult;
+    reg [31:0] mult;
     
     always @ (posedge clk or posedge reset)
     begin
@@ -29,7 +29,7 @@ module mac(
             a_out <= 0;
             b_out <= 0;
             acc_out <= 32'b0;
-            mult <= 16'b0;
+            mult <= 32'b0;
         end
         else
         begin
