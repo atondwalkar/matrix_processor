@@ -14,7 +14,7 @@ Array is of dynamic size and multiplies in format AxB, where rows of A are multi
 
 Countplex Modules relay data from cache to systolic array in proper, stagnated form.
 
-##Simulation Results
+## Simulation Results
 
 The following matrix multiplication example was used to simulate the processor
 ![alt text](https://github.com/atondwalkar/matrix_processor/blob/master/images/multiplication_example.png?raw=true)
