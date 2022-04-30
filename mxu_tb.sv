@@ -110,34 +110,6 @@ module mxu_tb;
                         #10;
                     end
             end
-            //        for(k = 0; k < 2; k++)
-            //            begin
-            //                #10;
-            //                clk = 1;
-            //                #10;
-            //                clk = 0;
-            //                #10;
-            //                clk = 1;
-            //                awaddr = 2 + SIZE*SIZE + k;
-            //                #10;
-            //                clk = 0;
-            //                #10;
-            //                clk = 1;
-            //                #10;
-            //                clk = 0;
-            //                wdata = 3;
-            //                wready = 1;
-            //                #10;
-            //                clk = 1;
-            //                #10;
-            //                clk = 0;
-            //                wready = 0;
-            //                #10;
-            //                clk = 1;
-            //                #10;
-            //                clk = 0;
-            //                #10;
-            //            end
 
             //setting how many cycles
         #10;
