@@ -10,4 +10,14 @@ MAC unit has 3 stages
 2. multiply data
 3. accumulate data
 
-Array is of dynamic size
+Array is of dynamic size and multiplies in format AxB, where rows of A are multiplied to columns of B.
+
+Countplex Modules relay data from cache to systolic array in proper, stagnated form.
+
+##Simulation Results
+
+The following matrix multiplication example was used to simulate the processor
+![alt text](https://github.com/atondwalkar/matrix_processor/blob/master/images/multiplication_example.png?raw=true)
+
+The results of the matrix muliplcation can be seen on output ```rdata```, which will be used as the axi output for reading status and accumulator data
+![alt text](https://github.com/atondwalkar/matrix_processor/blob/master/images/mxu_simulation.png?raw=true)
