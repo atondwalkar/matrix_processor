@@ -73,7 +73,8 @@ module control(
                         mac_cycles <= 1;
                         load_en <= 1;
                         mult_en <= 0;
-                        acc_en <= 0;
+                        //acc_en <= 0;
+                        acc_en <= 1;
                         next <= 0;
                         if(cycles < SIZE)
                         begin
@@ -86,20 +87,14 @@ module control(
                         end
                     1   :
                         begin
-                        mac_cycles <= 2;
+                        //mac_cycles <= 2;
+                        mac_cycles <= 0;
                         load_en <= 0;
                         mult_en <= 1;
                         acc_en <= 0;
-                        next <= 0;
-                        end
-                    2   :
-                        begin
-                        mac_cycles <= 0;
-                        load_en <= 0;
-                        mult_en <= 0;
-                        acc_en <= 1;
-                        cycles <= cycles + 1;
+                        //next <= 0;
                         next <= 1;
+                        cycles <= cycles + 1;
                         end
                     default :
                         begin

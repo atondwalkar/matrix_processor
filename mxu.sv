@@ -8,8 +8,7 @@ module mxu(
     wready,
     rdata,
     araddr,
-    arready,
-    rready
+    arready
 );
 
     parameter SIZE = 4;
@@ -19,7 +18,7 @@ module mxu(
     input logic [31:0] awaddr;
     input logic [8:0] wdata;
     input logic wready;
-    input logic arready, rready;
+    input logic arready;
 
     input logic [31:0] araddr;
     output logic [31:0] rdata;

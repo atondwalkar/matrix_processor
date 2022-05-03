@@ -7,7 +7,7 @@ module mxu_tb;
 
     logic clk, reset;
 
-    logic wready, rready, arready;
+    logic wready, arready;
     logic [7:0] wdata;
     logic [31:0] awaddr;
     logic [31:0] rdata;
@@ -21,8 +21,7 @@ module mxu_tb;
         .wready(wready),
         .rdata(rdata),
         .araddr(araddr),
-        .arready(arready),
-        .rready(rready)
+        .arready(arready)
     );
 
 
@@ -39,7 +38,6 @@ module mxu_tb;
         clk = 0;
         reset = 1;
         araddr = 0;
-        rready = 0;
         wready = 0;
         awaddr = 0;
         arready = 0;
