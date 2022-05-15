@@ -1,6 +1,11 @@
 `timescale 1ns / 1ps
 
-module mxu(
+module mxu
+
+    #(
+    parameter integer SIZE = 4
+    )
+    (
     clk,
     reset,
     //wdata,
@@ -17,8 +22,7 @@ module mxu(
     d_out
 );
 
-    parameter SIZE = 4;
-    parameter BYTES = 4;
+
 
     input logic clk, reset;
 
@@ -27,9 +31,10 @@ module mxu(
     //input logic wready;
     //input logic arready;
 
-    input logic [SIZE*SIZE*8-1:0] data_a_in;
-    input logic [SIZE*SIZE*8-1:0] data_b_in;
-    input logic start_in, cycles_in;
+    input logic [SIZE*SIZE-1:0][7:0] data_a_in;
+    input logic [SIZE*SIZE-1:0][7:0] data_b_in;
+    input logic start_in;
+    input logic [7:0] cycles_in;
     output logic done_o;
     
     output logic [(SIZE*SIZE)-1:0][31:0] d_out;
@@ -71,8 +76,8 @@ module mxu(
                     begin
                         //data_plex_a[x][y] <= cache[x*SIZE+y + 2];
                         //data_plex_b[x][y] <= cache[y*SIZE+x + SIZE*SIZE + 2];
-                        data_plex_a[x][y] <= data_a_in[x*8*SIZE+y*8 +: 8];
-                        data_plex_b[x][y] <= data_b_in[y*8*SIZE+x*8 +: 8];
+                        data_plex_a[x][y] <= data_a_in[x*SIZE+y];
+                        data_plex_b[x][y] <= data_b_in[y*SIZE+x];
                     end
             end
     end
