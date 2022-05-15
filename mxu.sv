@@ -6,14 +6,15 @@ module mxu(
     //wdata,
     //awaddr,
     //wready,
-    rdata,
-    araddr,
+    //rdata,
+    //araddr,
     //arready,
     done_o,
     start_in,
     cycles_in,
     data_a_in,
-    data_b_in
+    data_b_in,
+    d_out
 );
 
     parameter SIZE = 4;
@@ -30,9 +31,11 @@ module mxu(
     input logic [SIZE*SIZE*8-1:0] data_b_in;
     input logic start_in, cycles_in;
     output logic done_o;
+    
+    output logic [(SIZE*SIZE)-1:0][31:0] d_out;
 
-    input logic [31:0] araddr;
-    output logic [31:0] rdata;
+    //input logic [31:0] araddr;
+    //output logic [31:0] rdata;
 
     logic [31:0] ar_bus;
 
@@ -49,8 +52,7 @@ module mxu(
 
     logic done, next;
 
-    logic [$clog2(SIZE*SIZE)-1:0] select;
-    logic [31:0] d_out;
+    //logic [$clog2(SIZE*SIZE)-1:0] select;
 
     logic reset_plex;
     logic [SIZE-1:0][SIZE-1:0][7:0] data_plex_a;
@@ -126,15 +128,15 @@ module mxu(
         .load_en(load_en),
         .mult_en(mult_en),
         .acc_en(acc_en),
-        .select(select),
+        //.select(select),
         .d_out(d_out),
         .a_in(a_in),
         .b_in(b_in)
     );
 
 
-    assign select = araddr[$clog2(SIZE*SIZE)-1:0] - 1;
-    assign rdata = d_out;
+    //assign select = araddr[$clog2(SIZE*SIZE)-1:0] - 1;
+    //assign rdata = d_out;
 
 
 //    //read data address

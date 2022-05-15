@@ -8,7 +8,7 @@ module array(
     load_en,
     clk,
     reset,
-    select,
+    //select,
     d_out
     );
     
@@ -17,12 +17,12 @@ module array(
     input logic clk, reset, mult_en, acc_en, load_en;
     input logic [SIZE-1:0][7:0] a_in;
     input logic [SIZE-1:0][7:0] b_in;
-    input logic [$clog2(SIZE*SIZE)-1:0] select;
-    output logic [31:0] d_out;
+    //input logic [$clog2(SIZE*SIZE)-1:0] select;
+    output logic [(SIZE*SIZE)-1:0][31:0] d_out;
     
     logic [SIZE:0][SIZE:0][7:0] a;
     logic [SIZE:0][SIZE:0][7:0] b;
-    logic [(SIZE*SIZE)-1:0][7:0] acc_out;
+    //logic [(SIZE*SIZE)-1:0][31:0] acc_out;
 
     integer k;
     always_comb
@@ -50,12 +50,11 @@ module array(
                 .load_en(load_en), 
                 .a_out(a[i][j+1]), 
                 .b_out(b[i+1][j]),
-                .acc_out(acc_out[i*SIZE+j])
+                //.acc_out(acc_out[i*SIZE+j])
+                .acc_out(d_out[i*SIZE+j])
                 );
         end
     end 
     endgenerate
-    
-    assign d_out = acc_out[select];
     
 endmodule
